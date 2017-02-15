@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.rates.processor</groupId>
+	<artifactId>rates-processor-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>rates-persistence</module>
+		<module>rates-business</module>
+		<module>rates-processor-persistence</module>
+		<module>rates-processor-business</module>
+		<module>rates-processor-web</module>
+		<module>rates-processor-war</module>
+	</modules>
+	<properties>
+		<spring.framework.version>4.3.6.RELEASE</spring.framework.version>
+		<activemq.version>5.11.1</activemq.version>
+		<atomikos.version>3.9.0</atomikos.version>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

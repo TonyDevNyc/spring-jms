@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"> 
+
+<properties>
+	
+	<entry key="insertCpffRateSql">
+    	<![CDATA[
+	     	INSERT INTO CPFF_RATE (
+				TXN_DT,
+				UNSECURED_RATE,
+				SECURED_RATE,
+				MATURITY_DT
+			) VALUES (
+				:transactionDate,
+				:unsecuredDate,
+				:securedDate,
+				:maturityDate
+			)
+       	]]>
+	</entry>
+	
+	<entry key="selectCpffRateByIdSql">
+    	<![CDATA[
+	     	SELECT
+	     		ID,
+				TXN_DT,
+				UNSECURED_RATE,
+				SECURED_RATE,
+				MATURITY_DT
+			FROM CPFF_RATE
+			WHERE ID = :id
+       	]]>
+	</entry>
+	
+	<entry key="selectCpffRateByTransactionDateSql">
+    	<![CDATA[
+	     	SELECT
+	     		ID,
+				TXN_DT,
+				UNSECURED_RATE,
+				SECURED_RATE,
+				MATURITY_DT
+			FROM CPFF_RATE
+			WHERE TXN_DT = :transactionDate
+       	]]>
+	</entry>
+
+</properties>

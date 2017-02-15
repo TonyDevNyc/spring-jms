@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"> 
+
+<properties>
+	
+	<entry key="insertMarketRateSql">
+    	<![CDATA[
+	     	INSERT INTO MKT_RATES (
+				RATE_TYPE,
+				TXN_DT,
+				RATE,
+				FIRST_PERCENTILE_RATE,
+				TWENTY_FIFTH_PERCENTILE_RATE,
+				SEVENTY_FIFTH_PERCENTILE_RATE,
+				NINETY_NINETH_PERCENTILE_RATE,
+				VOLUME
+			) VALUES (
+				:rateType,
+				:transactionDate,
+				:rate,
+				:firstPercentileRate,
+				:twentyFifthPercentileRate,
+				:seventyFifthPercentileRate,
+				:ninetyNinethPercentileRate,
+				:volume
+			)
+       	]]>
+	</entry>
+	
+	<entry key="selectMarketRateByIdSql">
+    	<![CDATA[
+	     	SELECT
+	     		ID,
+				RATE_TYPE,
+				TXN_DT,
+				RATE,
+				FIRST_PERCENTILE_RATE,
+				TWENTY_FIFTH_PERCENTILE_RATE,
+				SEVENTY_FIFTH_PERCENTILE_RATE,
+				NINETY_NINETH_PERCENTILE_RATE,
+				VOLUME
+			FROM MKT_RATES 
+			WHERE ID = :id
+       	]]>
+	</entry>
+	
+	<entry key="selectMarketRateByTransactionDateSql">
+    	<![CDATA[
+	     	SELECT
+	     		ID,
+				RATE_TYPE,
+				TXN_DT,
+				RATE,
+				FIRST_PERCENTILE_RATE,
+				TWENTY_FIFTH_PERCENTILE_RATE,
+				SEVENTY_FIFTH_PERCENTILE_RATE,
+				NINETY_NINETH_PERCENTILE_RATE,
+				VOLUME
+			FROM MKT_RATES
+			WHERE TXN_DT = :transactionDate
+       	]]>
+	</entry>
+
+</properties>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://www.springframework.org/schema/jms" xsi:schemaLocation="http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean id="atomikosJmsConnectionFactory" class="com.atomikos.jms.AtomikosConnectionFactoryBean" init-method="init">
+        <property name="uniqueResourceName" value="ActiveMQXA" />
+        <property name="xaConnectionFactory">
+            <bean class="org.apache.activemq.ActiveMQXAConnectionFactory">
+                <property name="brokerURL" value="tcp://127.0.0.1:61616" />
+                <property name="userName" value="admin" />
+                <property name="password" value="admin" />
+            </bean>
+        </property>
+        <property name="poolSize" value="1" />
+    </bean>
+
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="atomikosJmsConnectionFactory" />
+        <property name="receiveTimeout" value="2000" />
+        <property name="sessionTransacted" value="true" />
+        <property name="sessionAcknowledgeMode" value="0" />
+    </bean>
+       
+    <bean id="rateCpffIncomingQueue" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg value="rateCpffIncomingQueue" />
+    </bean>
+    
+    <bean id="rateCpffAcknowledgementQueue" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg value="rateCpffAcknowledgementQueue" />
+    </bean>
+    
+    <bean id="incomingCpffRateListener" class="com.rates.processor.business.jms.listeners.IncomingCpffRateListener">
+        <property name="cpffRateService" ref="cpffRateService" />
+    </bean>
+
+</beans>
