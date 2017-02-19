@@ -7,4 +7,11 @@
   </parent>
   <artifactId>rates-processor-war</artifactId>
   <packaging>war</packaging>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.rates.processor</groupId>
+  		<artifactId>rates-processor-web</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
 </project>

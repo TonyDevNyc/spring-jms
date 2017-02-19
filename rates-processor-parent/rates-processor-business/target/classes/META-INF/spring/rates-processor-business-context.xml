@@ -4,43 +4,42 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
 
-    <import resource="classpath*:/META-INF/spring/rates-processor-persistence-context.xml" />
-    <import resource="classpath*:/META-INF/spring/rates-processor-jms.xml" />
+	<import resource="classpath*:/META-INF/spring/rates-processor-persistence-context.xml" />
+	<import resource="classpath*:/META-INF/spring/rates-processor-jms.xml" />
 
-    <tx:annotation-driven />
-    
-    <tx:jta-transaction-manager />
+	<tx:annotation-driven />
 
-    <bean id="jsr303Validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
-        <property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
-    </bean>
-    
-    <bean id="rateProcessorValidator" class="com.rates.processor.business.validation.validator.RateProcessorValidatorImpl">
-        <property name="jsr303Validator" ref="jsr303Validator" />
-    </bean>
+	<tx:jta-transaction-manager />
 
-    <bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init" destroy-method="close">
-        <property name="forceShutdown" value="false" />
-    </bean>
+	<bean id="btmConfig" factory-method="getConfiguration" class="bitronix.tm.TransactionManagerServices">
+		<property name="serverId" value="localhost-btx-server" />
+		<property name="logPart1Filename" value="/Users/amarrajr/apps/btm/txnmgr/tranlogs/localhost-btm1.tlog" />
+		<property name="logPart2Filename" value="/Users/amarrajr/apps/btm/txnmgr/tranlogs/localhost-btm2.tlog" />
+	</bean>
 
-    <bean id="atomikosUserTransaction" class="com.atomikos.icatch.jta.J2eeUserTransaction">
-        <property name="transactionTimeout" value="300" />
-    </bean>
+	<bean id="bitronixTransactionManager" factory-method="getTransactionManager" class="bitronix.tm.TransactionManagerServices" depends-on="btmConfig" destroy-method="shutdown" />
 
-    <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" depends-on="atomikosTransactionManager,atomikosUserTransaction">
-        <property name="transactionManager" ref="atomikosTransactionManager" />
-        <property name="userTransaction" ref="atomikosUserTransaction" />
-        <property name="allowCustomIsolationLevels" value="true" />
-    </bean>
-    
-    <bean id="cpffRateService" class="com.rates.processor.business.service.impl.CpffRateServiceImpl">
-        <property name="cpffRateDao" ref="cpffRateDao" />
-        <property name="validator" ref="rateProcessorValidator" />
-    </bean>
-    
-    <bean id="marketRateService" class="com.rates.processor.business.service.impl.MarketRateServiceImpl">
-        <property name="marketRateDao" ref="marketRateDao" />
-        <property name="validator" ref="rateProcessorValidator" />
-    </bean>
+	<bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" primary="true">
+		<property name="transactionManager" ref="bitronixTransactionManager" />
+		<property name="userTransaction" ref="bitronixTransactionManager" />
+	</bean>
+
+	<bean id="jsr303Validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
+	</bean>
+
+	<bean id="rateProcessorValidator" class="com.rates.processor.business.validation.validator.RateProcessorValidatorImpl">
+		<property name="jsr303Validator" ref="jsr303Validator" />
+	</bean>
+
+	<bean id="cpffRateService" class="com.rates.processor.business.service.impl.CpffRateServiceImpl">
+		<property name="cpffRateDao" ref="cpffRateDao" />
+		<property name="validator" ref="rateProcessorValidator" />
+	</bean>
+
+	<bean id="marketRateService" class="com.rates.processor.business.service.impl.MarketRateServiceImpl">
+		<property name="marketRateDao" ref="marketRateDao" />
+		<property name="validator" ref="rateProcessorValidator" />
+	</bean>
 
 </beans>

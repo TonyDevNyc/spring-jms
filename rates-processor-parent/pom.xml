@@ -17,6 +17,7 @@
 		<spring.framework.version>4.3.6.RELEASE</spring.framework.version>
 		<activemq.version>5.11.1</activemq.version>
 		<atomikos.version>3.9.0</atomikos.version>
+		<bitronix.version>2.1.4</bitronix.version>
 	</properties>
 
 	<build>

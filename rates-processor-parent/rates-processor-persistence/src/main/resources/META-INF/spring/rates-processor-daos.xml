@@ -24,7 +24,7 @@
 	</bean>
 	
 	<bean id="marketRateDao" class="com.rates.processor.persistence.jdbc.dao.impl.MarketRateDaoImpl" parent="baseDao">
-		<property name="marketRateQueries" ref="marketRateDao" />
+		<property name="marketRateQueries" ref="marketRateQueries" />
 	</bean>
 
 </beans>
